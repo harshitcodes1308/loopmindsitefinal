@@ -18,7 +18,7 @@ const AdvancedCursorTrail = () => {
       setTrail(prev => {
         const newTrail = [
           { x: e.clientX, y: e.clientY, id: Date.now() },
-          ...prev.slice(0, 8) // Reduced trail length
+          ...prev.slice(0, 4) // Reduced trail length for performance
         ];
         return newTrail;
       });
@@ -34,38 +34,35 @@ const AdvancedCursorTrail = () => {
       {trail.map((point, index) => (
         <motion.div
           key={point.id}
-          className="absolute w-2 h-2 rounded-full bg-purple-400"
+          className="absolute w-1 h-1 rounded-full bg-purple-400"
           initial={{ 
-            x: point.x - 4, 
-            y: point.y - 4,
+            x: point.x - 2, 
+            y: point.y - 2,
             scale: 1,
-            opacity: 0.6
+            opacity: 0.4
           }}
           animate={{ 
             scale: 0,
             opacity: 0
           }}
           transition={{ 
-            duration: 0.8,
+            duration: 0.5,
             ease: "easeOut"
-          }}
-          style={{
-            filter: `blur(${index * 0.2}px)`,
           }}
         />
       ))}
       
-      {/* Main cursor glow - subtle */}
+      {/* Simplified main cursor glow */}
       <motion.div
-        className="absolute w-4 h-4 rounded-full pointer-events-none bg-purple-400/40"
+        className="absolute w-3 h-3 rounded-full pointer-events-none bg-purple-400/30"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
+          x: mousePosition.x - 6,
+          y: mousePosition.y - 6,
         }}
         transition={{
           type: "spring",
-          stiffness: 500,
-          damping: 28
+          stiffness: 400,
+          damping: 25
         }}
       />
     </div>
