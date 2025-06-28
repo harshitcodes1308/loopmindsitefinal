@@ -168,8 +168,8 @@ const ProjectShowcase = () => {
             <ChevronRight className="h-6 w-6 group-hover:text-purple-300 transition-colors" />
           </motion.button>
 
-          {/* 3D Video Carousel - EXACTLY like before */}
-          <div className="flex items-center justify-center space-x-8 w-full max-w-6xl perspective-1000">
+          {/* Mobile-First Video Player - EXACTLY like your reference */}
+          <div className="flex items-center justify-center w-full max-w-6xl">
             {videos.map((video, index) => {
               const isCenter = index === currentIndex;
               const isAdjacent = Math.abs(index - currentIndex) === 1 || 
@@ -179,17 +179,17 @@ const ProjectShowcase = () => {
               return (
                 <motion.div
                   key={video.id}
-                  className={`relative rounded-2xl overflow-hidden transition-all duration-700 cursor-pointer group ${
+                  className={`relative transition-all duration-700 cursor-pointer ${
                     isCenter 
-                      ? 'w-[600px] h-[340px] opacity-100 scale-100 z-10' 
+                      ? 'w-[320px] h-[600px] md:w-[380px] md:h-[680px] opacity-100 scale-100 z-10 mx-4' 
                       : isAdjacent 
-                        ? 'w-[480px] h-[270px] opacity-70 scale-90 z-5' 
-                        : 'w-[360px] h-[200px] opacity-40 scale-75 z-0'
+                        ? 'w-[280px] h-[520px] md:w-[320px] md:h-[580px] opacity-60 scale-90 z-5 mx-2' 
+                        : 'w-[240px] h-[440px] md:w-[280px] md:h-[500px] opacity-30 scale-75 z-0 mx-1'
                   }`}
                   animate={{
                     scale: isCenter ? 1 : isAdjacent ? 0.9 : 0.75,
-                    opacity: isCenter ? 1 : isAdjacent ? 0.7 : 0.4,
-                    rotateY: isCenter ? 0 : isAdjacent ? (index < currentIndex ? -25 : 25) : 0,
+                    opacity: isCenter ? 1 : isAdjacent ? 0.6 : 0.3,
+                    rotateY: isCenter ? 0 : isAdjacent ? (index < currentIndex ? -15 : 15) : 0,
                     z: isCenter ? 50 : isAdjacent ? 25 : 0,
                     filter: isCenter ? 'blur(0px)' : isAdjacent ? 'blur(2px)' : 'blur(4px)'
                   }}
@@ -204,15 +204,15 @@ const ProjectShowcase = () => {
                     transformStyle: 'preserve-3d'
                   }}
                 >
-                  {/* Video Container */}
-                  <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
-                    {/* HTML5 Video */}
+                  {/* Phone-like Video Container - EXACTLY like your reference */}
+                  <div className="relative w-full h-full bg-black rounded-[32px] overflow-hidden border-4 border-gray-800 shadow-2xl">
+                    {/* Video */}
                     <video
                       ref={el => {
                         videoRefs.current[index] = el;
                         if (el) handleVideoLoad(index);
                       }}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-[28px]"
                       src={video.url}
                       poster={video.thumbnail}
                       loop
@@ -222,15 +222,15 @@ const ProjectShowcase = () => {
                       onLoadedData={() => handleVideoLoad(index)}
                     />
 
-                    {/* Controls Overlay for center video */}
+                    {/* Top Controls Overlay - EXACTLY like your reference */}
                     {isCenter && (
-                      <div className="absolute top-4 right-4 z-30 flex space-x-2">
+                      <div className="absolute top-6 right-6 z-30 flex space-x-3">
                         <motion.button
                           onClick={(e) => {
                             e.stopPropagation();
                             togglePlayPause();
                           }}
-                          className="p-3 rounded-full bg-purple-600/60 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/80 transition-all group"
+                          className="w-14 h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 transition-all flex items-center justify-center"
                           style={{
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)'
@@ -241,7 +241,7 @@ const ProjectShowcase = () => {
                           }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                          {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
                         </motion.button>
 
                         <motion.button
@@ -249,7 +249,7 @@ const ProjectShowcase = () => {
                             e.stopPropagation();
                             toggleMute();
                           }}
-                          className="p-3 rounded-full bg-purple-600/60 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/80 transition-all group"
+                          className="w-14 h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 transition-all flex items-center justify-center"
                           style={{
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)'
@@ -260,87 +260,82 @@ const ProjectShowcase = () => {
                           }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                          {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
                         </motion.button>
                       </div>
                     )}
+
+                    {/* Bottom Overlay - EXACTLY like your reference */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6 rounded-b-[28px]"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: isCenter ? 1 : 0.8, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-white text-xl font-bold mb-1">{video.title}</h3>
+                          {isCenter && (
+                            <motion.div
+                              className="flex items-center space-x-2 text-purple-300"
+                              animate={{ opacity: [0.7, 1, 0.7] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            >
+                              <span className="text-sm font-medium">
+                                {isPlaying ? 'Playing' : 'Paused'}
+                              </span>
+                              {isPlaying ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+                            </motion.div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Green Playing Indicator Dot - EXACTLY like your reference */}
+                    {isCenter && isPlaying && (
+                      <motion.div
+                        className="absolute top-6 left-6 w-4 h-4 bg-green-500 rounded-full"
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          boxShadow: [
+                            '0 0 10px rgba(34, 197, 94, 0.6)',
+                            '0 0 20px rgba(34, 197, 94, 0.9)',
+                            '0 0 10px rgba(34, 197, 94, 0.6)'
+                          ]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+                    
+                    {/* Glow for center video */}
+                    {isCenter && (
+                      <motion.div
+                        className="absolute inset-0 rounded-[32px] border-2 border-purple-500/60 pointer-events-none"
+                        animate={{
+                          boxShadow: [
+                            '0 0 30px rgba(139, 92, 246, 0.6)',
+                            '0 0 50px rgba(139, 92, 246, 0.8)',
+                            '0 0 30px rgba(139, 92, 246, 0.6)',
+                          ]
+                        }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      />
+                    )}
+
+                    {/* Loading indicator */}
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-[28px]"
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 0 }}
+                      transition={{ delay: 1, duration: 0.5 }}
+                    >
+                      <motion.div
+                        className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                    </motion.div>
                   </div>
-                  
-                  {/* Overlay gradient for non-center videos */}
-                  {!isCenter && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none rounded-2xl" />
-                  )}
-                  
-                  {/* Glow for center video */}
-                  {isCenter && (
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl border-2 border-purple-500/60 pointer-events-none"
-                      animate={{
-                        boxShadow: [
-                          '0 0 30px rgba(139, 92, 246, 0.6)',
-                          '0 0 50px rgba(139, 92, 246, 0.8)',
-                          '0 0 30px rgba(139, 92, 246, 0.6)',
-                        ]
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    />
-                  )}
-
-                  {/* Video title overlay */}
-                  <motion.div
-                    className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 pointer-events-none"
-                    style={{
-                      backdropFilter: 'blur(10px)',
-                      WebkitBackdropFilter: 'blur(10px)'
-                    }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: isCenter ? 1 : 0.7, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span>{video.title}</span>
-                      {isCenter && (
-                        <motion.span
-                          className="text-xs text-purple-300 flex items-center space-x-1 ml-2"
-                          animate={{ opacity: [0.7, 1, 0.7] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          <span>{isPlaying ? 'Playing' : 'Paused'}</span>
-                          {isPlaying ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
-                        </motion.span>
-                      )}
-                    </div>
-                  </motion.div>
-
-                  {/* Simple green dot indicator for playing video */}
-                  {isCenter && isPlaying && (
-                    <motion.div
-                      className="absolute top-4 left-4 w-4 h-4 bg-green-500 rounded-full"
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        boxShadow: [
-                          '0 0 10px rgba(34, 197, 94, 0.6)',
-                          '0 0 20px rgba(34, 197, 94, 0.9)',
-                          '0 0 10px rgba(34, 197, 94, 0.6)'
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  )}
-
-                  {/* Loading indicator */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-2xl"
-                    initial={{ opacity: 1 }}
-                    animate={{ opacity: 0 }}
-                    transition={{ delay: 1, duration: 0.5 }}
-                  >
-                    <motion.div
-                      className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    />
-                  </motion.div>
                 </motion.div>
               );
             })}
