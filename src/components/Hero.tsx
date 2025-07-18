@@ -14,7 +14,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mb-8"
         >
           <motion.img 
@@ -76,7 +76,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mb-8"
         >
           <h1 
@@ -93,7 +93,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
+          transition={{ duration: 0.8, delay: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-xl md:text-2xl text-gray-300 mb-12"
         >
           <div
@@ -113,7 +113,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
@@ -121,7 +121,7 @@ const Hero = () => {
               y: [0, 15, 0],
             }}
             transition={{ 
-              y: { duration: 2, repeat: Infinity },
+              y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
             }}
             className="cursor-pointer"
             style={{

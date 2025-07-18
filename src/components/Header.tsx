@@ -27,6 +27,8 @@ const Header = () => {
           {/* Logo */}
           <motion.div 
             className="flex items-center space-x-3"
+            onClick={() => window.location.href = '/'}
+            style={{ cursor: 'pointer' }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
@@ -59,7 +61,7 @@ const Header = () => {
             {['Home', 'Demos', 'Pricing', "What's Coming"].map((item, index) => (
               <motion.a 
                 key={item}
-                href={`#${item.toLowerCase().replace("'", '').replace(' ', '-')}`} 
+                href={item === 'Home' ? '/' : `#${item.toLowerCase().replace("'", '').replace(' ', '-')}`} 
                 className="text-gray-200 hover:text-white transition-all duration-300 relative font-medium"
                 style={{
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 0 15px rgba(147, 51, 234, 0.3)'
@@ -137,7 +139,7 @@ const Header = () => {
               {['Home', 'Demos', 'Pricing', "What's Coming"].map((item, index) => (
                 <motion.a 
                   key={item}
-                  href={`#${item.toLowerCase().replace("'", '').replace(' ', '-')}`} 
+                  href={item === 'Home' ? '/' : `#${item.toLowerCase().replace("'", '').replace(' ', '-')}`} 
                   className="text-gray-200 hover:text-white transition-all duration-300 py-2 px-4 rounded-lg"
                   style={{
                     textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)',

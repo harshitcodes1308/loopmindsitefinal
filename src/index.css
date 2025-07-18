@@ -12,6 +12,7 @@
 html {
   scroll-behavior: smooth;
   cursor: none;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -20,6 +21,8 @@ body {
   color: #ffffff;
   overflow-x: hidden;
   cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom scrollbar */
@@ -226,22 +229,29 @@ body {
 /* Performance optimizations */
 .will-change-transform {
   will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .will-change-opacity {
   will-change: opacity;
+  backface-visibility: hidden;
 }
 
 .gpu-accelerated {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
 }
 
 /* Video container optimizations */
 .video-container {
   overflow: hidden;
   will-change: transform;
+  contain: layout style paint;
 }
 
 .video-container video {
@@ -249,16 +259,40 @@ body {
   width: 100%;
   height: 100%;
   will-change: transform;
+  contain: layout style paint;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* Smooth scrolling improvements */
+* {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Optimize framer-motion animations */
+[data-framer-component-type] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Responsive design enhancements */
 @media (max-width: 768px) {
   html {
     cursor: auto;
+    scroll-padding-top: 60px;
   }
   
   body {
     cursor: auto;
+  }
+  
+  /* Better mobile video performance */
+  .video-container {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
   
   /* Reduce animations on mobile for better performance */
@@ -294,5 +328,11 @@ body {
   
   .smooth-transition {
     transition: none !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

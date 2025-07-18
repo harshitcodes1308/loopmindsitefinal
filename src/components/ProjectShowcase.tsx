@@ -181,10 +181,10 @@ const ProjectShowcase = () => {
                   key={video.id}
                   className={`relative cursor-pointer gpu-accelerated ${
                     isCenter 
-                      ? 'w-[280px] h-[500px] sm:w-[320px] sm:h-[600px] md:w-[380px] md:h-[680px] opacity-100 z-10 mx-2 md:mx-4' 
+                      ? 'w-[300px] h-[600px] sm:w-[320px] sm:h-[640px] md:w-[380px] md:h-[760px] opacity-100 z-10 mx-2 md:mx-4' 
                       : isAdjacent 
-                        ? 'w-[240px] h-[420px] sm:w-[280px] sm:h-[520px] md:w-[320px] md:h-[580px] opacity-60 z-5 mx-1 md:mx-2' 
-                        : 'w-[200px] h-[360px] sm:w-[240px] sm:h-[440px] md:w-[280px] md:h-[500px] opacity-30 z-0 mx-1'
+                        ? 'w-[250px] h-[500px] sm:w-[280px] sm:h-[560px] md:w-[320px] md:h-[640px] opacity-60 z-5 mx-1 md:mx-2' 
+                        : 'w-[200px] h-[400px] sm:w-[240px] sm:h-[480px] md:w-[280px] md:h-[560px] opacity-30 z-0 mx-1'
                   }`}
                   animate={{
                     scale: isCenter ? 1 : isAdjacent ? 0.85 : 0.7,
@@ -193,8 +193,8 @@ const ProjectShowcase = () => {
                     filter: isCenter ? 'blur(0px)' : isAdjacent ? 'blur(1px)' : 'blur(3px)'
                   }}
                   transition={{ 
-                    duration: 0.5, 
-                    ease: "easeOut",
+                    duration: 0.6, 
+                    ease: [0.25, 0.46, 0.45, 0.94],
                     type: "tween"
                   }}
                   whileHover={isCenter ? { 
@@ -207,14 +207,14 @@ const ProjectShowcase = () => {
                   }}
                 >
                   {/* Phone-like Video Container - EXACTLY like your reference */}
-                  <div className="relative w-full h-full bg-black rounded-[24px] sm:rounded-[32px] overflow-hidden border-2 sm:border-4 border-gray-800 shadow-2xl video-container">
+                  <div className="relative w-full h-full bg-black rounded-[28px] sm:rounded-[36px] overflow-hidden border-3 sm:border-4 border-gray-800 shadow-2xl video-container">
                     {/* Video */}
                     <video
                       ref={el => {
                         videoRefs.current[index] = el;
                         if (el) handleVideoLoad(index);
                       }}
-                      className="w-full h-full object-cover rounded-[20px] sm:rounded-[28px]"
+                      className="w-full h-full object-cover rounded-[24px] sm:rounded-[32px]"
                       src={video.url}
                       poster={video.thumbnail}
                       loop
@@ -224,7 +224,8 @@ const ProjectShowcase = () => {
                       onLoadedData={() => handleVideoLoad(index)}
                       style={{
                         objectFit: 'cover',
-                        objectPosition: 'center'
+                        objectPosition: 'center',
+                        aspectRatio: '9/16'
                       }}
                     />
 
@@ -271,24 +272,24 @@ const ProjectShowcase = () => {
 
                     {/* Bottom Overlay - EXACTLY like your reference */}
                     <motion.div
-                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 sm:p-6 rounded-b-[20px] sm:rounded-b-[28px]"
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 sm:p-6 rounded-b-[24px] sm:rounded-b-[32px]"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: isCenter ? 1 : 0.8, y: 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="text-white text-sm sm:text-xl font-bold mb-1">{video.title}</h3>
+                          <h3 className="text-white text-base sm:text-xl font-bold mb-1">{video.title}</h3>
                           {isCenter && (
                             <motion.div
                               className="flex items-center space-x-2 text-purple-300"
                               animate={{ opacity: [0.8, 1, 0.8] }}
                               transition={{ duration: 1.5, repeat: Infinity }}
                             >
-                              <span className="text-xs sm:text-sm font-medium">
+                              <span className="text-sm sm:text-base font-medium">
                                 {isPlaying ? 'Playing' : 'Paused'}
                               </span>
-                              {isPlaying ? <Play className="h-3 w-3 sm:h-4 sm:w-4" /> : <Pause className="h-3 w-3 sm:h-4 sm:w-4" />}
+                              <span className="text-sm">▷</span>
                             </motion.div>
                           )}
                         </div>
@@ -313,23 +314,23 @@ const ProjectShowcase = () => {
                     {/* Glow for center video */}
                     {isCenter && (
                       <motion.div
-                        className="absolute inset-0 rounded-[24px] sm:rounded-[32px] border border-purple-500/40 pointer-events-none"
+                        className="absolute inset-0 rounded-[28px] sm:rounded-[36px] border border-purple-500/40 pointer-events-none"
                         animate={{
                           opacity: [0.6, 0.8, 0.6]
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
                         style={{
-                          boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)'
+                          boxShadow: '0 0 30px rgba(139, 92, 246, 0.5)'
                         }}
                       />
                     )}
 
                     {/* Loading indicator */}
                     <motion.div
-                      className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-[20px] sm:rounded-[28px]"
+                      className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-[24px] sm:rounded-[32px]"
                       initial={{ opacity: 1 }}
                       animate={{ opacity: 0 }}
-                      transition={{ delay: 0.5, duration: 0.3 }}
+                      transition={{ delay: 0.8, duration: 0.4 }}
                     >
                       <motion.div
                         className="w-8 h-8 sm:w-12 sm:h-12 border-2 sm:border-4 border-purple-500/30 border-t-purple-500 rounded-full"
