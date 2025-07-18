@@ -169,7 +169,7 @@ const ProjectShowcase = () => {
           </motion.button>
 
           {/* Mobile-First Video Player - EXACTLY like your reference */}
-          <div className="flex items-center justify-center w-full max-w-6xl">
+          <div className="flex items-center justify-center w-full max-w-6xl overflow-hidden">
             {videos.map((video, index) => {
               const isCenter = index === currentIndex;
               const isAdjacent = Math.abs(index - currentIndex) === 1 || 
@@ -179,40 +179,42 @@ const ProjectShowcase = () => {
               return (
                 <motion.div
                   key={video.id}
-                  className={`relative transition-all duration-700 cursor-pointer ${
+                  className={`relative cursor-pointer gpu-accelerated ${
                     isCenter 
-                      ? 'w-[320px] h-[600px] md:w-[380px] md:h-[680px] opacity-100 scale-100 z-10 mx-4' 
+                      ? 'w-[280px] h-[500px] sm:w-[320px] sm:h-[600px] md:w-[380px] md:h-[680px] opacity-100 z-10 mx-2 md:mx-4' 
                       : isAdjacent 
-                        ? 'w-[280px] h-[520px] md:w-[320px] md:h-[580px] opacity-60 scale-90 z-5 mx-2' 
-                        : 'w-[240px] h-[440px] md:w-[280px] md:h-[500px] opacity-30 scale-75 z-0 mx-1'
+                        ? 'w-[240px] h-[420px] sm:w-[280px] sm:h-[520px] md:w-[320px] md:h-[580px] opacity-60 z-5 mx-1 md:mx-2' 
+                        : 'w-[200px] h-[360px] sm:w-[240px] sm:h-[440px] md:w-[280px] md:h-[500px] opacity-30 z-0 mx-1'
                   }`}
                   animate={{
-                    scale: isCenter ? 1 : isAdjacent ? 0.9 : 0.75,
+                    scale: isCenter ? 1 : isAdjacent ? 0.85 : 0.7,
                     opacity: isCenter ? 1 : isAdjacent ? 0.6 : 0.3,
-                    rotateY: isCenter ? 0 : isAdjacent ? (index < currentIndex ? -15 : 15) : 0,
-                    z: isCenter ? 50 : isAdjacent ? 25 : 0,
-                    filter: isCenter ? 'blur(0px)' : isAdjacent ? 'blur(2px)' : 'blur(4px)'
+                    rotateY: isCenter ? 0 : isAdjacent ? (index < currentIndex ? -10 : 10) : 0,
+                    filter: isCenter ? 'blur(0px)' : isAdjacent ? 'blur(1px)' : 'blur(3px)'
                   }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  transition={{ 
+                    duration: 0.5, 
+                    ease: "easeOut",
+                    type: "tween"
+                  }}
                   whileHover={isCenter ? { 
-                    scale: 1.02,
-                    rotateX: 2,
-                    boxShadow: '0 20px 60px rgba(139, 92, 246, 0.4)'
+                    scale: 1.01
                   } : {}}
                   onClick={() => setCurrentIndex(index)}
                   style={{
-                    transformStyle: 'preserve-3d'
+                    transformStyle: 'preserve-3d',
+                    willChange: 'transform, opacity, filter'
                   }}
                 >
                   {/* Phone-like Video Container - EXACTLY like your reference */}
-                  <div className="relative w-full h-full bg-black rounded-[32px] overflow-hidden border-4 border-gray-800 shadow-2xl">
+                  <div className="relative w-full h-full bg-black rounded-[24px] sm:rounded-[32px] overflow-hidden border-2 sm:border-4 border-gray-800 shadow-2xl video-container">
                     {/* Video */}
                     <video
                       ref={el => {
                         videoRefs.current[index] = el;
                         if (el) handleVideoLoad(index);
                       }}
-                      className="w-full h-full object-cover rounded-[28px]"
+                      className="w-full h-full object-cover rounded-[20px] sm:rounded-[28px]"
                       src={video.url}
                       poster={video.thumbnail}
                       loop
@@ -220,28 +222,31 @@ const ProjectShowcase = () => {
                       playsInline
                       preload="metadata"
                       onLoadedData={() => handleVideoLoad(index)}
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
                     />
 
                     {/* Top Controls Overlay - EXACTLY like your reference */}
                     {isCenter && (
-                      <div className="absolute top-6 right-6 z-30 flex space-x-3">
+                      <div className="absolute top-3 right-3 sm:top-6 sm:right-6 z-30 flex space-x-2 sm:space-x-3">
                         <motion.button
                           onClick={(e) => {
                             e.stopPropagation();
                             togglePlayPause();
                           }}
-                          className="w-14 h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 transition-all flex items-center justify-center"
+                          className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 smooth-transition flex items-center justify-center"
                           style={{
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)'
                           }}
                           whileHover={{ 
-                            scale: 1.1,
-                            boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)'
+                            scale: 1.05
                           }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
+                          {isPlaying ? <Pause className="h-4 w-4 sm:h-6 sm:w-6" /> : <Play className="h-4 w-4 sm:h-6 sm:w-6" />}
                         </motion.button>
 
                         <motion.button
@@ -249,42 +254,41 @@ const ProjectShowcase = () => {
                             e.stopPropagation();
                             toggleMute();
                           }}
-                          className="w-14 h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 transition-all flex items-center justify-center"
+                          className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white hover:bg-purple-600/90 smooth-transition flex items-center justify-center"
                           style={{
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)'
                           }}
                           whileHover={{ 
-                            scale: 1.1,
-                            boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)'
+                            scale: 1.05
                           }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
+                          {isMuted ? <VolumeX className="h-4 w-4 sm:h-6 sm:w-6" /> : <Volume2 className="h-4 w-4 sm:h-6 sm:w-6" />}
                         </motion.button>
                       </div>
                     )}
 
                     {/* Bottom Overlay - EXACTLY like your reference */}
                     <motion.div
-                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6 rounded-b-[28px]"
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 sm:p-6 rounded-b-[20px] sm:rounded-b-[28px]"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: isCenter ? 1 : 0.8, y: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="text-white text-xl font-bold mb-1">{video.title}</h3>
+                          <h3 className="text-white text-sm sm:text-xl font-bold mb-1">{video.title}</h3>
                           {isCenter && (
                             <motion.div
                               className="flex items-center space-x-2 text-purple-300"
-                              animate={{ opacity: [0.7, 1, 0.7] }}
-                              transition={{ duration: 2, repeat: Infinity }}
+                              animate={{ opacity: [0.8, 1, 0.8] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
                             >
-                              <span className="text-sm font-medium">
+                              <span className="text-xs sm:text-sm font-medium">
                                 {isPlaying ? 'Playing' : 'Paused'}
                               </span>
-                              {isPlaying ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+                              {isPlaying ? <Play className="h-3 w-3 sm:h-4 sm:w-4" /> : <Pause className="h-3 w-3 sm:h-4 sm:w-4" />}
                             </motion.div>
                           )}
                         </div>
@@ -294,43 +298,41 @@ const ProjectShowcase = () => {
                     {/* Green Playing Indicator Dot - EXACTLY like your reference */}
                     {isCenter && isPlaying && (
                       <motion.div
-                        className="absolute top-6 left-6 w-4 h-4 bg-green-500 rounded-full"
+                        className="absolute top-3 left-3 sm:top-6 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full"
                         animate={{
                           scale: [1, 1.3, 1],
-                          boxShadow: [
-                            '0 0 10px rgba(34, 197, 94, 0.6)',
-                            '0 0 20px rgba(34, 197, 94, 0.9)',
-                            '0 0 10px rgba(34, 197, 94, 0.6)'
-                          ]
+                          opacity: [0.8, 1, 0.8]
                         }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        style={{
+                          boxShadow: '0 0 10px rgba(34, 197, 94, 0.8)'
+                        }}
                       />
                     )}
                     
                     {/* Glow for center video */}
                     {isCenter && (
                       <motion.div
-                        className="absolute inset-0 rounded-[32px] border-2 border-purple-500/60 pointer-events-none"
+                        className="absolute inset-0 rounded-[24px] sm:rounded-[32px] border border-purple-500/40 pointer-events-none"
                         animate={{
-                          boxShadow: [
-                            '0 0 30px rgba(139, 92, 246, 0.6)',
-                            '0 0 50px rgba(139, 92, 246, 0.8)',
-                            '0 0 30px rgba(139, 92, 246, 0.6)',
-                          ]
+                          opacity: [0.6, 0.8, 0.6]
                         }}
-                        transition={{ duration: 3, repeat: Infinity }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        style={{
+                          boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)'
+                        }}
                       />
                     )}
 
                     {/* Loading indicator */}
                     <motion.div
-                      className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-[28px]"
+                      className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-[20px] sm:rounded-[28px]"
                       initial={{ opacity: 1 }}
                       animate={{ opacity: 0 }}
-                      transition={{ delay: 1, duration: 0.5 }}
+                      transition={{ delay: 0.5, duration: 0.3 }}
                     >
                       <motion.div
-                        className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full"
+                        className="w-8 h-8 sm:w-12 sm:h-12 border-2 sm:border-4 border-purple-500/30 border-t-purple-500 rounded-full"
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       />
@@ -343,58 +345,57 @@ const ProjectShowcase = () => {
         </div>
 
         {/* Indicator dots */}
-        <div className="flex justify-center mt-12 space-x-4">
+        <div className="flex justify-center mt-8 sm:mt-12 space-x-3 sm:space-x-4">
           {videos.map((_, index) => (
             <motion.button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-4 h-4 rounded-full transition-all duration-300 ${
+              className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full smooth-transition ${
                 index === currentIndex 
                   ? 'bg-purple-500' 
                   : 'bg-gray-600 hover:bg-gray-500'
               }`}
-              whileHover={{ scale: 1.3 }}
+              whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
               animate={index === currentIndex ? {
-                boxShadow: [
-                  '0 0 10px rgba(139, 92, 246, 0.6)',
-                  '0 0 20px rgba(139, 92, 246, 0.9)',
-                  '0 0 10px rgba(139, 92, 246, 0.6)'
-                ]
+                opacity: [0.8, 1, 0.8]
               } : {}}
               transition={{
-                boxShadow: { duration: 2, repeat: Infinity }
+                opacity: { duration: 1.5, repeat: Infinity }
               }}
+              style={index === currentIndex ? {
+                boxShadow: '0 0 10px rgba(139, 92, 246, 0.6)'
+              } : {}}
             />
           ))}
         </div>
 
         {/* Instructions */}
         <motion.div
-          className="text-center mt-8"
+          className="text-center mt-6 sm:mt-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.3 }}
         >
           <p 
-            className="text-gray-400 text-sm mb-2"
+            className="text-gray-400 text-xs sm:text-sm mb-2"
             style={{
               textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
             }}
           >
             Videos auto-play when selected • Use controls to play/pause and mute/unmute
           </p>
-          <div className="flex justify-center items-center space-x-6 text-xs text-gray-500">
+          <div className="flex justify-center items-center space-x-4 sm:space-x-6 text-xs text-gray-500">
             <div className="flex items-center space-x-2">
-              <Play className="h-4 w-4" />
+              <Play className="h-3 w-3 sm:h-4 sm:w-4" />
               <span>Auto-play</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Volume2 className="h-4 w-4" />
+              <Volume2 className="h-3 w-3 sm:h-4 sm:w-4" />
               <span>Audio Controls</span>
             </div>
             <div className="flex items-center space-x-2">
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
               <span>Navigate</span>
             </div>
           </div>

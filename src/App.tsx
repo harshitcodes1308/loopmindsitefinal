@@ -37,9 +37,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<><PremiumBackground /><Header /><About /><Footer /><AdvancedCursorTrail /></>} />
           <Route path="/terms" element={<><PremiumBackground /><Header /><Terms /><Footer /><AdvancedCursorTrail /></>} />
+          <Route path="/terms-conditions" element={<><PremiumBackground /><Header /><Terms /><Footer /><AdvancedCursorTrail /></>} />
           <Route path="/privacy" element={<><PremiumBackground /><Header /><Privacy /><Footer /><AdvancedCursorTrail /></>} />
+          <Route path="/privacy-policy" element={<><PremiumBackground /><Header /><Privacy /><Footer /><AdvancedCursorTrail /></>} />
           <Route path="/refund" element={<><PremiumBackground /><Header /><Refund /><Footer /><AdvancedCursorTrail /></>} />
+          <Route path="/refund-policy" element={<><PremiumBackground /><Header /><Refund /><Footer /><AdvancedCursorTrail /></>} />
           <Route path="/cancellation" element={<><PremiumBackground /><Header /><Cancellation /><Footer /><AdvancedCursorTrail /></>} />
+          <Route path="/cancellation-policy" element={<><PremiumBackground /><Header /><Cancellation /><Footer /><AdvancedCursorTrail /></>} />
+          <Route path="/contact" element={<><PremiumBackground /><Header /><About /><Footer /><AdvancedCursorTrail /></>} />
         </Routes>
       </div>
     </Router>

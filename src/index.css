@@ -73,14 +73,20 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(147, 51, 234, 0.6); }
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
 @keyframes data-flow {
-  0% { transform: translateX(-100%); opacity: 0; }
+  0% { transform: translate3d(-100%, 0, 0); opacity: 0; }
   50% { opacity: 1; }
-  100% { transform: translateX(100vw); opacity: 0; }
+  100% { transform: translate3d(100vw, 0, 0); opacity: 0; }
 }
 
 @keyframes circuit-pulse {
@@ -100,46 +106,85 @@ body {
 }
 
 @keyframes scan-line {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% { transform: translate3d(0, -100%, 0); }
+  100% { transform: translate3d(0, 100vh, 0); }
 }
 
 @keyframes glitch {
   0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
+  20% { transform: translate3d(-2px, 2px, 0); }
+  40% { transform: translate3d(-2px, -2px, 0); }
+  60% { transform: translate3d(2px, 2px, 0); }
+  80% { transform: translate3d(2px, -2px, 0); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .animate-data-flow {
   animation: data-flow 8s linear infinite;
+  will-change: transform, opacity;
 }
 
 .animate-circuit-pulse {
   animation: circuit-pulse 3s ease-in-out infinite;
+  will-change: opacity;
 }
 
 .animate-hologram {
   animation: hologram 10s ease-in-out infinite;
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
+  will-change: background-position, filter;
 }
 
 .animate-scan-line {
   animation: scan-line 8s linear infinite;
+  will-change: transform;
 }
 
 .animate-glitch {
   animation: glitch 0.3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+  will-change: transform, opacity;
 }
 
 /* Parallax scrolling */
@@ -155,15 +200,17 @@ body {
   bottom: 0;
 }
 
-/* Smooth transitions - OPTIMIZED */
-* {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Performance optimized transitions */
+.smooth-transition {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
 }
 
 /* Custom button hover effects */
 .btn-glow:hover {
-  box-shadow: 0 0 30px rgba(147, 51, 234, 0.6);
-  transform: translateY(-2px);
+  transform: translate3d(0, -2px, 0) scale(1.02);
+  will-change: transform;
 }
 
 /* Neural network styling */
@@ -185,6 +232,25 @@ body {
   will-change: opacity;
 }
 
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Video container optimizations */
+.video-container {
+  overflow: hidden;
+  will-change: transform;
+}
+
+.video-container video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
 /* Responsive design enhancements */
 @media (max-width: 768px) {
   html {
@@ -193,6 +259,15 @@ body {
   
   body {
     cursor: auto;
+  }
+  
+  /* Reduce animations on mobile for better performance */
+  .animate-float {
+    animation-duration: 4s;
+  }
+  
+  .animate-pulse-glow {
+    animation-duration: 3s;
   }
 }
 
@@ -206,9 +281,18 @@ body {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-data-flow,
+  .animate-circuit-pulse,
+  .animate-hologram,
+  .animate-scan-line,
+  .animate-glitch {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  }
+  
+  .smooth-transition {
+    transition: none !important;
   }
 }
