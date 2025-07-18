@@ -36,7 +36,7 @@ const Pricing = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
@@ -57,7 +57,7 @@ const Pricing = () => {
               key={plan.title}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.4, delay: index * 0.03, ease: "easeOut" }}
               viewport={{ once: true, margin: "-50px" }}
               className="relative group h-full"
             >
